@@ -30,5 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Network error: ' + error.message);
             }
         });
+    } else {
+        // === INDEX PAGE ===
+        checkAuthentication(); // vérifie si utilisateur connecté
+        setupPriceFilter();    // initialise le filtre
     }
 });
