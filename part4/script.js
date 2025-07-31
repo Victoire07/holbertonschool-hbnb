@@ -92,4 +92,23 @@ function displayPlaces(places) {
         container.appendChild(div);
     });
 }
+function setupPriceFilter() {
+    const filter = document.getElementById('price-filter');
+    if (!filter) return;
+
+    filter.addEventListener('change', (event) => {
+        const selected = event.target.value;
+        const places = document.querySelectorAll('#places-list .place');
+
+        places.forEach(place => {
+            const price = parseFloat(place.getAttribute('data-price'));
+            if (selected === 'all' || price <= parseFloat(selected)) {
+                place.style.display = 'block';
+            } else {
+                place.style.display = 'none';
+            }
+        });
+    });
+}
+
 
