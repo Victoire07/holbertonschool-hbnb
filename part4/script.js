@@ -71,3 +71,25 @@ async function fetchPlaces(token) {
         console.error('Erreur de récupération des places :', err);
     }
 }
+function displayPlaces(places) {
+    const container = document.getElementById('places-list');
+    if (!container) return;
+
+    container.innerHTML = ''; // vide l'existant
+
+    places.forEach(place => {
+        const div = document.createElement('div');
+        div.classList.add('place');
+        div.setAttribute('data-price', place.price);
+
+        div.innerHTML = `
+            <h3>${place.title}</h3>
+            <p>${place.description}</p>
+            <p>📍 ${place.latitude}, ${place.longitude}</p>
+            <p><strong>${place.price} €</strong></p>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
