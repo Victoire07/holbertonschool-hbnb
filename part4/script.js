@@ -55,3 +55,19 @@ function checkAuthentication() {
         fetchPlaces(token); // Charge les places
     }
 }
+async function fetchPlaces(token) {
+    try {
+        const response = await fetch('http://localhost:5000/api/v1/places', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) throw new Error("Erreur API");
+
+        const places = await response.json();
+        displayPlaces(places);
+    } catch (err) {
+        console.error('Erreur de récupération des places :', err);
+    }
+}
