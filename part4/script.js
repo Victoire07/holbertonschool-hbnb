@@ -44,4 +44,14 @@ function getCookie(name) {
     }
     return null;
 }
+function checkAuthentication() {
+    const token = getCookie('token');
+    const loginLink = document.getElementById('login-link');
 
+    if (!token) {
+        if (loginLink) loginLink.style.display = 'block'; // Montre le lien
+    } else {
+        if (loginLink) loginLink.style.display = 'none'; // Cache le lien
+        fetchPlaces(token); // Charge les places
+    }
+}
