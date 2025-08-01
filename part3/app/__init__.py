@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restx import Api
 from config import DevelopmentConfig
 
@@ -19,6 +20,9 @@ def create_app(config_class="config.DevelopmentConfig"):
     # 1: Load application configuration before initializing extensions(BD...)
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # Enabling CORS for all origins (in dev)
+    CORS(app)
 
     # Step 2: Initialize Bcrypt with the Flask application
     db.init_app(app)
