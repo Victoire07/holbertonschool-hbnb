@@ -110,5 +110,10 @@ function setupPriceFilter() {
         });
     });
 }
+function getPlaceIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('id'); // exemple : place.html?id=3
+}
+
 
 
