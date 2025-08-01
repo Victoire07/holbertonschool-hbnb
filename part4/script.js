@@ -149,4 +149,31 @@ async function fetchPlaceDetails(token, placeId) {
         console.error('Erreur de récupération du lieu :', err);
     }
 }
+function displayPlaceDetails(place) {
+    const section = document.getElementById('place-details');
+    if (!section) return;
 
+    section.innerHTML += `
+        <h3>${place.title}</h3>
+        <p><strong>Prix :</strong> ${place.price} €</p>
+        <p>${place.description}</p>
+        <p><strong>📍 Localisation :</strong> ${place.latitude}, ${place.longitude}</p>
+    `;
+
+    // Reviews
+    const reviewsSection = document.getElementById('reviews');
+    if (place.reviews && place.reviews.length > 0) {
+        place.reviews.forEach(review => {
+            const div = document.createElement('div');
+            div.classList.add('review-card');
+            div.innerHTML = `
+                <p><strong>${review.author}</strong></p>
+                <p>${review.text}</p>
+                <p>${'★'.repeat(review.rating)}</p>
+            `;
+            reviewsSection.appendChild(div);
+        });
+    } else {
+        reviewsSection.innerHTML += `<p>Aucun avis pour l’instant.</p>`;
+    }
+}
