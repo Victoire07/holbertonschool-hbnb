@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
+    const placesList = document.getElementById('places-list');
+    const placeDetails = document.getElementById('place-details');
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
@@ -30,10 +32,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Network error: ' + error.message);
             }
         });
-    } else {
+    } else if (placesList) {
         // === INDEX PAGE ===
         checkAuthentication(); // vérifie si utilisateur connecté
         setupPriceFilter();    // initialise le filtre
+    }
+    else if (placeDetails) {
+        // === PAGE PLACE ===
+        const placeId = getPlaceIdFromURL();
+        const token = getCookie('token');
+
+        if (!placeId) {
+            alert("Aucun ID de lieu dans l’URL.");
+            return;
+        }
+
+        if (!token) {
+            const reviewForm = document.getElementById('add-review');
+            if (reviewForm) reviewForm.style.display = 'none';
+        }
+
+        fetchPlaceDetails(token, placeId);
     }
 });
 function getCookie(name) {
@@ -114,6 +133,20 @@ function getPlaceIdFromURL() {
     const params = new URLSearchParams(window.location.search);
     return params.get('id'); // exemple : place.html?id=3
 }
+async function fetchPlaceDetails(token, placeId) {
+    try {
+        const response = await fetch(`http://localhost:5000/api/v1/places/${placeId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
+        if (!response.ok) throw new Error("Erreur API");
 
+        const place = await response.json();
+        displayPlaceDetails(place);
+    } catch (err) {
+        console.error('Erreur de récupération du lieu :', err);
+    }
+}
 
