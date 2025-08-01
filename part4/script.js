@@ -153,7 +153,7 @@ function displayPlaceDetails(place) {
     const section = document.getElementById('place-details');
     if (!section) return;
 
-    section.innerHTML += `
+    section.innerHTML = `
         <h3>${place.title}</h3>
         <p><strong>Prix :</strong> ${place.price} €</p>
         <p>${place.description}</p>
@@ -162,6 +162,7 @@ function displayPlaceDetails(place) {
 
     // Reviews
     const reviewsSection = document.getElementById('reviews');
+    reviewsSection.innerHTML = '<h2>Reviews</h2>';
     if (place.reviews && place.reviews.length > 0) {
         place.reviews.forEach(review => {
             const div = document.createElement('div');
